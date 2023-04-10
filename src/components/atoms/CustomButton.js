@@ -8,7 +8,7 @@ import {
   } from 'react-native';
 
 
-export default function Button(props) {
+export default function CustomButton(props) {
   return (
     <View style={styles.container}>
       <Button
