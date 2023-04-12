@@ -1,6 +1,8 @@
+import 'react-native-gesture-handler';
 import React from 'react';
+import Home from './src/pages/home.js'
 import { NavigationContainer } from '@react-navigation/native';
-import StackNavigator from './navigation/StackNavigator';
+import StackNavigator from './navigation/StackNavigator.js';
 
 
 export default function App() {
@@ -8,5 +10,8 @@ export default function App() {
     <NavigationContainer>
       <StackNavigator />
     </NavigationContainer>
+    
+    // <Stack.Screen name="Home" component={Home} />
+    // <Home />
   );
 }

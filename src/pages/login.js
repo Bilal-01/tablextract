@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import firebase from '../../firebaseConfig';
 
 
-const Login = ({ }) => {
+const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -42,7 +42,7 @@ const Login = ({ }) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={{ marginTop: 20, padding: 10 }}
-        // onPress={() => navigation.navigate('SignUp')}
+        onPress={() => navigation.navigate('Signup')}
       >
         <Text>Don't have an account? Sign up</Text>
       </TouchableOpacity>

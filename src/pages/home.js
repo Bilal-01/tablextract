@@ -8,9 +8,9 @@ export default function HomePage({ navigation }) {
     <View style={styles.container}>
       <View style={styles.navbar}>
         <Text style={styles.navbarTitle}>TABLEXTRACT</Text>
-        <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+        {/* <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
           <Ionicons name="menu" size={24} color="white" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <ScrollView>
 
@@ -40,7 +40,7 @@ export default function HomePage({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.signUpButton}
-            onPress={() => navigation.navigate('SignUp')}
+            onPress={() => navigation.navigate('Signup')}
           >
             <Text style={styles.buttonTextBlue}>Sign Up</Text>
           </TouchableOpacity>
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     height: 80,
     paddingHorizontal: 15,
     paddingTop: 10,
-    justifyContent: 'space-between',
+    justifyContent: 'center',
   },
   navbarTitle: {
     color: 'white',
