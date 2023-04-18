@@ -1,23 +1,13 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from "firebase/auth";
 
-// Optionally import the services that you want to use
-// import {...} from "firebase/auth";
-// import {...} from "firebase/database";
-// import {...} from "firebase/firestore";
-// import {...} from "firebase/functions";
-// import {...} from "firebase/storage";
-
-// Initialize Firebase
 const firebaseConfig = {
-  apiKey: 'api-key',
-  authDomain: 'project-id.firebaseapp.com',
-  databaseURL: 'https://project-id.firebaseio.com',
-  projectId: 'project-id',
-  storageBucket: 'project-id.appspot.com',
-  messagingSenderId: 'sender-id',
-  appId: 'app-id',
-  measurementId: 'G-measurement-id',
+  apiKey: "AIzaSyCoCY5N1GQ_HNS2LpaEfqIC-MYGczh7jro",
+  authDomain: "react-native-authenticat-401f1.firebaseapp.com",
+  projectId: "react-native-authenticat-401f1",
+  storageBucket: "react-native-authenticat-401f1.appspot.com",
+  messagingSenderId: "889090571285",
+  appId: "1:889090571285:web:69d5f8738cedfbcbad221c"
 };
 
 const app = initializeApp(firebaseConfig);

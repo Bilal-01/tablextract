@@ -1,31 +1,29 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import firebase from '../../firebaseConfig';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
 
 const Signup = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  const auth = getAuth();
   const handleSignUp = () => {
-    console.log('email:', email);
-    console.log('password:', password);
-    console.log('confirmPassword:', confirmPassword);
     if (password !== confirmPassword) {
       alert('Passwords do not match');
       return;
     }
-    console.log('creating user...');
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        // navigation.navigate('Home');
-        alert('user created')
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log('user created')
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
+    
   };
 
   return (
