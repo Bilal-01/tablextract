@@ -22,9 +22,8 @@ export default function HomePage({ navigation }) {
         <View style={styles.content}>
           {/* <Text style={styles.sectionHeading}>Getting started with Tablextract</Text> */}
           <Text style={styles.contentText}>
-  Welcome to Tablextract, the easiest way to extract data from invoices and other documents. Simply upload a JPG file of your invoice, and our advanced algorithms will automatically extract all of the relevant data.You can then convert this data to a CSV file and download it for further analysis or integration with your accounting software.
-</Text>
-
+            Welcome to Tablextract, the easiest way to extract data from invoices and other documents. Simply upload a JPG file of your invoice, and our advanced algorithms will automatically extract all of the relevant data.You can then convert this data to a CSV file and download it for further analysis or integration with your accounting software.
+          </Text>
           <TouchableOpacity
             style={styles.loginButton}
             onPress={() => navigation.navigate('Login')}
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
     color: colors.text,
     fontSize: 40,
     fontWeight:'bold',
-    fontFamily: 'Arial',
+    // fontFamily: 'Arial',
     letterSpacing: 2,
   }
   ,

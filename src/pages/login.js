@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet,View, Text, TextInput, TouchableOpacity } from 'react-native';
 import firebase from '../../firebaseConfig';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 
 const Login = ({ navigation }) => {
@@ -9,15 +9,13 @@ const Login = ({ navigation }) => {
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-      navigation.navigate('Home');
-        console.log(email,password)
+        navigation.navigate('UploadFile');
       })
       .catch((error) => {
-        alert(error.message);
+        alert('Error logging in. Email or password invalid');
       });
   }
 
@@ -27,16 +25,15 @@ const Login = ({ navigation }) => {
       <TextInput
         style={{ marginTop: 20, padding: 10, borderWidth: 1 }}
         placeholder="Email"
-        onChangeText={(email) => setEmail(email)}
+        onChangeText={(inputEmail) => setEmail(inputEmail)}
       />
       <TextInput
         style={{ marginTop: 20, padding: 10, borderWidth: 1 }}
         placeholder="Password"
         secureTextEntry={true}
-        onChangeText={(password) => setPassword(password)}
+        onChangeText={(inputPass) => setPassword(inputPass)}
       />
       <TouchableOpacity
-        // style={{ marginTop: 20, padding: 10, backgroundColor: colors.secondary }}
         onPress={handleLogin}
       >
         <Text style={{ color: colors.text, ...styles.buttonText,...styles.loginButton }}>Login</Text>
