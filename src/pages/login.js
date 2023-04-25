@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Image,StyleSheet,View, Text, TextInput, TouchableOpacity } from 'react-native';
-// import app from '../../firebaseConfig';
-import { sendPasswordResetEmail,getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../../firebaseConfig';
+import { sendPasswordResetEmail, getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import logo from '../assets/logo.png';
+
 
 
 const Login = ({ navigation }) => {
@@ -10,7 +11,6 @@ const Login = ({ navigation }) => {
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         navigation.navigate('UploadFile');

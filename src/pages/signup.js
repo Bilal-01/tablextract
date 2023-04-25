@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet,View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../../firebaseConfig';
 
 
 const Signup = ({ navigation }) => {
@@ -8,7 +9,6 @@ const Signup = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const auth = getAuth();
   const handleSignUp = () => {
     // Email validation
     const emailRegex = /\S+@\S+\.\S+/;
