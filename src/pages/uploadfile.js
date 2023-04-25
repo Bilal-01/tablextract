@@ -64,7 +64,6 @@ export default function UploadFile( { navigation } ){
             aspect: [4, 3],
             quality: 1,
         });
-        console.log(result.assets[0].uri);
     
         if (!result.canceled) {
             setImage(result.assets[0].uri);
@@ -79,22 +78,51 @@ export default function UploadFile( { navigation } ){
         }, 5000);
     };
 
-    const handleDownload = () => {
-        const fileUri = 'F:/bilal/mobile/scan2csv/src/assets/diabetes.csv';
-        const fileUriParts = fileUri.split('/');
-        const fileName = fileUriParts[fileUriParts.length - 1];
-        const downloadResumable = FileSystem.createDownloadResumable(
-            fileUri,
-            FileSystem.documentDirectory + fileName
-        );
-
-        try {
-            const { uri } = downloadResumable.downloadAsync();
-            console.log('Downloaded file:', uri);
-        } catch (error) {
-            console.error('Error while downloading the file:', error);
-        }
+    const handleDownload = async () => {
+        // const callback = downloadProgress => {
+        //     const progress = downloadProgress.totalBytesWritten / downloadProgress.totalBytesExpectedToWrite
+        //     this.setState({
+        //       downloadProgress: progress,
+        //     })
+        //   }
+          
+        //   const downloadResumable = FileSystem.createDownloadResumable(
+        //     'http://techslides.com/demos/sample-videos/small.mp4',
+        //     FileSystem.documentDirectory + 'small.mp4',
+        //     {},
+        //     callback
+        //   )
+          
+        //   try {
+        //     const { uri } = await downloadResumable.downloadAsync()
+        //     console.log('Finished downloading to ', uri)
+        //   } catch (e) {
+        //     console.error(e)
+        //   }
+          
+        //   try {
+        //     await downloadResumable.pauseAsync()
+        //     console.log('Paused download operation, saving for future retrieval')
+        //     AsyncStorage.setItem('pausedDownload', JSON.stringify(downloadResumable.savable()))
+        //   } catch (e) {
+        //     console.error(e)
+        //   }
+          
+        //   try {
+        //     const { uri } = await downloadResumable.resumeAsync()
+        //     console.log('Finished downloading to ', uri)
+        //   } catch (e) {
+        //     console.error(e)
+        //   }
+          
+        //   try {
+        //     const { uri } = await downloadResumable.resumeAsync()
+        //     console.log('Finished downloading to ', uri)
+        //   } catch (e) {
+        //     console.error(e)
+        //   }
     };
+
 
     return (
         <View style={{ color:'white',backgroundColor:'black',flex: 1, alignItems: 'center', justifyContent: 'center' }}>
