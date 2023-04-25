@@ -142,7 +142,8 @@ const styles = StyleSheet.create({
     width: "70%",
     height: 50,
     marginBottom: 20,
-    alignItems: "center",
+    // alignItems: "start",
+    // paddingLeft: '20px',
   },
   TextInput: {
     height: 50,
