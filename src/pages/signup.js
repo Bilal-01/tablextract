@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet,View, Text, TextInput, TouchableOpacity } from 'react-native';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { Image,StyleSheet,View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../../firebaseConfig';
+import logo from '../assets/logo.png';
 
 
 const Signup = ({ navigation }) => {
@@ -58,8 +59,8 @@ const Signup = ({ navigation }) => {
   
     <View style={{ color:'white',backgroundColor:'black',flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       {/* <Text>Sign Up</Text> */}
-      
-      <View style={{marginTop:60,...styles.inputView}}>
+      <Image source={logo} style={styles.image} />
+      <View style={{marginTop:30,...styles.inputView}}>
       <TextInput
         style={{ ...styles.TextInput}}
         placeholder="Email"
@@ -88,7 +89,7 @@ const Signup = ({ navigation }) => {
         // onPress={() => navigation.navigate('Home')}
 
       >
-        <Text style={{ color: 'white' ,...styles.signUpText}}>Sign Up</Text>
+        <Text style={{ color: 'white' ,...styles.signUpText}}>SIGN UP</Text>
       
       </TouchableOpacity>
       <TouchableOpacity
@@ -127,8 +128,8 @@ const styles = StyleSheet.create({
     height:40,
     alignItems:"center",
     justifyContent:"center",
-    marginTop:20,
-    marginBottom:10,
+    marginTop:10,
+    marginBottom:5,
     backgroundColor:colors.secondary,
   },
   signUpText:{
@@ -152,19 +153,12 @@ const styles = StyleSheet.create({
     // marginLeft: 20,
     color: colors.text,
   },
-   forgot_button: {
-    height: 30,
-    marginTop:20,
-    marginBottom: 0,
-  },
   image: {
-    marginBottom: 40,
     width: 100,
     height: 100,
     alignItems: 'center',
     marginLeft:10,
     borderRadius: 20,
-    marginTop: 60,
   },  
   footer: {
     backgroundColor: colors.base_f,
@@ -179,8 +173,8 @@ const styles = StyleSheet.create({
   },
 
   footerText: {
-    fontSize: 16,
-    lineHeight: 24,
+    fontSize: 14,
+    lineHeight: 18,
     textAlign: 'center',
     marginBottom: 5,
     color: colors.gray,
