@@ -143,8 +143,8 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   footerText: {
-    fontSize: 16,
-    lineHeight: 24,
+    fontSize: 14,
+    lineHeight: 18,
     textAlign: 'center',
     marginBottom: 5,
     color: colors.gray,
