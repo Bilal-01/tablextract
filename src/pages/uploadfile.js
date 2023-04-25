@@ -98,7 +98,7 @@ export default function UploadFile( { navigation } ){
 
     return (
         <View style={{ color:'white',backgroundColor:'black',flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            {image && <Image source={{ uri: image }} style={styles.image} />}
+            {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }}  />}
             <Animated.View style={{ transform: translateAnim.getTranslateTransform() }}>
                 <Icon name="search" size={50} color="#BACDDB" />
             </Animated.View>
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     uploadBtn:
     {
       borderRadius:5,
-      paddingVertical: 20,
+      paddingVertical: 10,
       paddingHorizontal: 20,
       alignItems:"center",
       justifyContent:"center",
