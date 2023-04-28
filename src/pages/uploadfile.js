@@ -95,8 +95,8 @@ export default function UploadFile( { navigation } ){
         }
 
         setTimeout(() => {
-        setLoading(false);
-        setShowDownloadButton(true);
+          setLoading(false);
+          setShowDownloadButton(true);
         }, 5000);
     };
 
@@ -196,6 +196,9 @@ export default function UploadFile( { navigation } ){
                             minimumTrackTintColor={colors.secondary}
                             thumbTintColor={colors.secondary}
                             />
+                            <Text style={{color: 'white'}}>
+                              {leftValue}
+                            </Text>
                             <Slider
                             style={styles.slider}
                             minimumValue={0}
@@ -220,6 +223,7 @@ export default function UploadFile( { navigation } ){
                             minimumTrackTintColor={colors.secondary}
                             thumbTintColor={colors.secondary}
                             />
+                            <Text styles={{color: 'white', fontSize: 10}}>{leftValue}</Text>
                             <Slider
                             style={styles.slider}
                             minimumValue={0}
@@ -344,5 +348,6 @@ const styles = StyleSheet.create({
       slider: {
         flex: 1,
         height: 40,
+        color: 'white',
       },
 })
