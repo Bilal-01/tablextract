@@ -7,21 +7,25 @@ import logo from '../assets/logo.png';
 
 
 const Login = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [inputEmail, setInputEmail] = useState('');
+  const [inputPassword, setInputPassword] = useState('');
 
   const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
+    signInWithEmailAndPassword(auth, inputEmail, inputPassword)
+      .then((userCredential) => {
+        userCredential.user.getIdToken().then((token) => {
+          console.log(token);
+        });
         navigation.navigate('UploadFile');
       })
       .catch((error) => {
+        console.log(error)
         alert('Error logging in. Email or password invalid');
       });
   }
   const handleForgotPassword = () => {
     const auth = getAuth();
-    sendPasswordResetEmail(auth, email)
+    sendPasswordResetEmail(auth, inputEmail)
       .then(() => {
         alert('Password reset email sent. Please check your inbox.');
       })
@@ -44,7 +48,7 @@ const Login = ({ navigation }) => {
         style={{ ...styles.TextInput}}
         placeholder="Email"
         // placeholderTextColor='#003f5c'
-        onChangeText={(inputEmail) => setEmail(inputEmail)}
+        onChangeText={(inputEmail) => setInputEmail(inputEmail)}
         />
       </View>
       <View style={styles.inputView}>
@@ -52,7 +56,7 @@ const Login = ({ navigation }) => {
         style={{ ...styles.TextInput}}
         placeholder="Password"
         secureTextEntry={true}
-        onChangeText={(inputPass) => setPassword(inputPass)}
+        onChangeText={(inputPass) => setInputPassword(inputPass)}
       />
       </View>
       <TouchableOpacity style={styles.loginBtn}onPress={handleLogin}>
