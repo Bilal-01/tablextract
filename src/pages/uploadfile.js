@@ -6,32 +6,42 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import { auth } from '../../firebaseConfig';
+import CustomSlider from '../components/organisms/slider';
 
 export default function UploadFile( { navigation } ){
     const [loading, setLoading] = useState(false);
     const [showDownloadButton, setShowDownloadButton] = useState(false);
     const [translateAnim] = useState(new Animated.ValueXY({ x: 0, y: 0 }));
     const [image, setImage] = useState('');
-    const [topValue, setTopValue] = useState(0);
-    const [bottomValue, setBottomValue] = useState(0);
-    const [leftValue, setLeftValue] = useState(0);
-    const [rightValue, setRightValue] = useState(0);
+    const [topValue, setTopValue] = useState(20);
+    const [bottomValue, setBottomValue] = useState(20);
+    const [leftValue, setLeftValue] = useState(20);
+    const [rightValue, setRightValue] = useState(20);
+    const [tableDetectionThresh, setTableDetectionThresh] = useState(0.6);
+    const [tableStructureThresh, setTableStructureThresh] = useState(0.8);
   
-    const handleValueChange1 = (newValue) => {
+    const handleValueChangeTop = (newValue) => {
       setTopValue(Math.round(newValue));
     };
   
-    const handleValueChange2 = (newValue) => {
+    const handleValueChangeBottom = (newValue) => {
       setBottomValue(Math.round(newValue));
     };
   
-    const handleValueChange3 = (newValue) => {
+    const handleValueChangeLeft = (newValue) => {
       setLeftValue(Math.round(newValue));
     };
   
-    const handleValueChange4 = (newValue) => {
+    const handleValueChangeRight = (newValue) => {
       setRightValue(Math.round(newValue));
     };
+
+    const handleValueChangeDetectionThresh = (newValue) => {
+      setTableDetectionThresh(newValue)
+    }
+    const handleValueChangeStructureThresh = (newValue) => {
+      setTableDetectionThresh(newValue)
+    }
 
 
     useEffect(() => {
@@ -155,6 +165,7 @@ export default function UploadFile( { navigation } ){
       };
 
 
+
     return (
         <View style={{ ...styles.container, color:'white',backgroundColor:'black',flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
@@ -170,7 +181,6 @@ export default function UploadFile( { navigation } ){
             </TouchableOpacity>          
             ) : (
                 <>
-                    {image && <Image source={{ uri: image }} style={{ width: 100, height: 100 }}  />}
                     <Animated.View style={{ marginTop: 100, transform: translateAnim.getTranslateTransform() }}>
                         <Icon name="search" size={50} color="#BACDDB" />
                     </Animated.View>
@@ -180,63 +190,54 @@ export default function UploadFile( { navigation } ){
                     <TouchableOpacity style={styles.uploadBtn} onPress={handleUpload}>
                         <Text style={styles.uploadText}>Upload Image</Text>
                     </TouchableOpacity>
-                    <Text style={{color:'white'}} >File Format: jpeg, jpg, and png </Text>
+                    <Text style={{color:'white', fontSize: 12}} >File Format: jpeg, jpg, and png </Text>
 
                     <View style={styles.sliderContainer}>
-                        
-                        <View style={styles.row}>
-                            <Slider
-                            style={styles.slider}
-                            minimumValue={0}
-                            maximumValue={200}
-                            step={1}
-                            value={topValue}
-                            onValueChange={handleValueChange1}
-                            maximumTrackTintColor={colors.primary}
-                            minimumTrackTintColor={colors.secondary}
-                            thumbTintColor={colors.secondary}
-                            />
-                            <Text style={{color: 'white'}}>
-                              {leftValue}
-                            </Text>
-                            <Slider
-                            style={styles.slider}
-                            minimumValue={0}
-                            maximumValue={200}
-                            step={1}
-                            value={bottomValue}
-                            onValueChange={handleValueChange2}
-                            maximumTrackTintColor={colors.primary}
-                            minimumTrackTintColor={colors.secondary}
-                            thumbTintColor={colors.secondary}
-                            />
-                        </View>
-                        <View style={styles.row}>
-                            <Slider
-                            style={styles.slider}
-                            minimumValue={0}
-                            maximumValue={200}
-                            step={1}
-                            value={leftValue}
-                            onValueChange={handleValueChange3}
-                            maximumTrackTintColor={colors.primary}
-                            minimumTrackTintColor={colors.secondary}
-                            thumbTintColor={colors.secondary}
-                            />
-                            <Text styles={{color: 'white', fontSize: 10}}>{leftValue}</Text>
-                            <Slider
-                            style={styles.slider}
-                            minimumValue={0}
-                            maximumValue={200}
-                            step={1}
-                            value={rightValue}
-                            onValueChange={handleValueChange4}
-                            maximumTrackTintColor={colors.primary}
-                            minimumTrackTintColor={colors.secondary}
-                            thumbTintColor={colors.secondary}
-                            />
-                        </View>
-                    </View>
+                      <View style={styles.singleRow}>
+                        <CustomSlider 
+                          value = {tableDetectionThresh}
+                          onValueChange={handleValueChangeDetectionThresh}
+                          step={0.01}
+                          min = {0.1}
+                          max = {1}
+                          title="Table Detection Threshold"
+                        />
+                      </View>
+                      <View style={styles.singleRow}>
+                        <CustomSlider 
+                          value = {tableStructureThresh}
+                          onValueChange={handleValueChangeStructureThresh}
+                          step={0.01}
+                          min = {0.1}
+                          max = {1}
+                          title="Table Structure Threshold"
+                        />
+                      </View>
+                      <View style={styles.row}>
+                        <CustomSlider 
+                          value = {topValue}
+                          onValueChange = {handleValueChangeTop}
+                          title="Top Padding"
+                        />
+                        <CustomSlider 
+                          value = {bottomValue}
+                          onValueChange = {handleValueChangeBottom}
+                          title="Bottom Padding"
+                        />
+                      </View>
+                      <View style={styles.row}>
+                        <CustomSlider 
+                          value = {leftValue}
+                          onValueChange = {handleValueChangeLeft}
+                          title="Left Padding"
+                        />
+                        <CustomSlider 
+                          value = {rightValue}
+                          onValueChange = {handleValueChangeRight}
+                          title="Right Padding"
+                        />
+                      </View>
+                  </View>
                 </>
             )}
             <View style={styles.footer}>
@@ -270,16 +271,16 @@ const styles = StyleSheet.create({
       alignItems:"center",
       justifyContent:"center",
       marginTop:10,
-      marginBottom:5,
+      marginBottom:3,
       backgroundColor:colors.secondary,
 
     },
     uploadText:{
-      fontSize:18,
+      fontSize:16,
       color : colors.text,
       fontWeight:'bold',
-      
     },
+
     downloadBtn:
     {
       borderRadius:5,
@@ -333,11 +334,9 @@ const styles = StyleSheet.create({
       },
 
       sliderContainer: {
-        display: 'flex',
-        alignItems: 'center',
+        flex: 1,
         justifyContent: 'center',
-        padding: 20,
-        marginTop: 50,
+        alignItems: 'center',
       },
       row: {
         flexDirection: 'row',
@@ -350,4 +349,7 @@ const styles = StyleSheet.create({
         height: 40,
         color: 'white',
       },
+      singleRow: {
+        flexDirection: 'row',
+      }
 })

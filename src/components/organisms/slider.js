@@ -1,34 +1,68 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Slider } from 'react-native';
 
-const MySlider = () => {
-  const [value, setValue] = useState(0);
-
-  const handleValueChange1 = (newValue) => {
-    setValue(newValue);
-  };
+export default function CustomSlider({ 
+  value,
+  onValueChange, 
+  title, 
+  step=1,
+  min=0,
+  max=200 
+}){
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>{title}</Text>
       <Slider
         style={styles.slider}
-        minimumValue={0}
-        maximumValue={200}
-        step={1}
-        value={topValue}
-        onValueChange={handleValueChange1}
+        minimumValue={min}
+        maximumValue={max}
+        step={step}
+        value={value}
+        onValueChange={onValueChange}
         maximumTrackTintColor={colors.primary}
         minimumTrackTintColor={colors.secondary}
         thumbTintColor={colors.secondary}
       />
       <View style={styles.textContainer}>
-        <Text style={styles.text}>
-          {leftValue}
+        <Text style={[styles.text, { 
+          position: 'absolute', 
+          left: 25, 
+          bottom: 15, 
+          fontSize: 10 
+        }]}>
+          {min}
+        </Text>
+        <Text style={[styles.text, { 
+          position: 'absolute', 
+          right: 20, 
+          bottom: 15, 
+          fontSize: 10 
+        }]}>
+          {max}
+        </Text>
+        <Text style={[styles.text, { 
+          position: 'absolute', 
+          bottom: 55, 
+          right: 20, 
+          fontSize: 16 
+        }]}>
+          {value}
         </Text>
       </View>
     </View>
   );
 }
+
+const colors = {
+  primary: '#F3E8FF',
+  secondary: '#CE5959',
+  base: '#BACDDB',
+  gray: '#808080',
+  base_f: '#454545',
+  text: '#253e53',
+  width: '100%',
+};
    
 const styles = StyleSheet.create({
   container: {
@@ -36,23 +70,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  title: {
+    color: 'white',
+    fontSize: 15,
+    textAlign: 'left',
+    marginBottom: -5,
+    marginLeft: -50,
+  },
   slider: {
-    width: '80%',
+    width: '100%',
     height: 40,
   },
   textContainer: {
-    position: 'absolute',
-    left: '50%',
-    transform: [{ translateX: -20 }],
-    top: -30,
-    width: 40,
-    height: 30,
-    justifyContent: 'center',
+    position: 'relative',
+    width: '100%',
     alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20
   },
   text: {
-    color: 'white',
-    fontSize: 16,
+    color: colors.secondary,
     fontWeight: 'bold',
   },
+
 });
