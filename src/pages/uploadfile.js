@@ -7,6 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import { auth } from '../../firebaseConfig';
 import CustomSlider from '../components/organisms/slider';
+import SendData from './api';
 
 export default function UploadFile( { navigation } ){
     const [loading, setLoading] = useState(false);
@@ -176,9 +177,20 @@ export default function UploadFile( { navigation } ){
             </View>
 
             {showDownloadButton ? (
-            <TouchableOpacity style={styles.downloadBtn} onPress={handleDownload}>
-                <Text style={styles.downloadText}>Download CSV</Text>
-            </TouchableOpacity>          
+              <>
+                <TouchableOpacity style={styles.downloadBtn} onPress={handleDownload}>
+                    <Text style={styles.downloadText}>Download CSV</Text>
+                </TouchableOpacity>
+                <SendData 
+                  image = "hello"
+                  topPad = {topValue}
+                  bottomPad={bottomValue}
+                  leftPad={leftValue}
+                  rightPad={rightValue}
+                  tableDetThresh={tableDetectionThresh}
+                  tableStructThresh={tableStructureThresh}
+                />          
+              </>
             ) : (
                 <>
                     <Animated.View style={{ marginTop: 100, transform: translateAnim.getTranslateTransform() }}>
