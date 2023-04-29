@@ -9,7 +9,8 @@ import { auth } from '../../firebaseConfig';
 import CustomSlider from '../components/organisms/slider';
 import SendData from './api';
 
-export default function UploadFile( { navigation } ){
+export default function UploadFile( { navigation, route } ){
+    const { token } = route.params;
     const [loading, setLoading] = useState(false);
     const [showDownloadButton, setShowDownloadButton] = useState(false);
     const [translateAnim] = useState(new Animated.ValueXY({ x: 0, y: 0 }));
@@ -188,6 +189,7 @@ export default function UploadFile( { navigation } ){
                   leftPad={leftValue}
                   rightPad={rightValue}
                   tableDetThresh={tableDetectionThresh}
+                  token={token}
                 />          
               </>
             ) : (
