@@ -50,20 +50,19 @@ export default function SendData({
     setIsLoading(true);
 
     const token = authToken;
-    // console.log( token );
+    console.log( token );
     const formData = new FormData();
-    formData.append('name', 'bilal');
-    formData.append('image', file);
-    formData.append('table_detection_threshold', tableDetThresh);
-    formData.append('table_structure_recognition_threshold', tableStructThresh);
-    formData.append('padding_top', topPad);
-    formData.append('padding_left', leftPad);
-    formData.append('padding_right', rightPad);
-    formData.append('padding_bottom', bottomPad);
+    formData.append('image', image);
+    // formData.append('table_detection_threshold', tableDetThresh);
+    // formData.append('table_structure_recognition_threshold', tableStructThresh);
+    // formData.append('padding_top', topPad);
+    // formData.append('padding_left', leftPad);
+    // formData.append('padding_right', rightPad);
+    // formData.append('padding_bottom', bottomPad);
 
     try {
       const response = await axios.post(
-        'http://localhost:8000/docs',
+        `http://localhost:8000/extract?table_detection_threshold=${tableDetThresh}&table_structure_recognition_threshold=${tableStructThresh}&padding_top=${topPad}&padding_left=${leftPad}&padding_right=${rightPad}&padding_bottom=${bottomPad}`,
         formData,
         {
           headers: {
