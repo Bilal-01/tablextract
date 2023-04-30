@@ -1,49 +1,20 @@
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import { View, Image, Text, Button, Animated, Easing, StyleSheet, Slider  } from 'react-native';
-
-
-// export default function SendData({ 
-//     image, 
-//     topPad,
-//     bottomPad,
-//     leftPad,
-//     rightPad,
-//     tableDetThresh,
-//     tableStructThresh
-// }){
-//     function call()
-//     {
-//         values={
-//             name: 'bilal'
-//         }
-//         axios.post(`http://localhost:8000/docs?table_detection_threshold=${tableDetThresh}&table_structure_recognition_threshold=${tableStructThresh}&padding_top=${topPad}&padding_left=${leftPad}&padding_right=${rightPad}&padding_bottom=${bottomPad}`, values).then(function(response){
-//             console.log(response)
-//         })
-//     }
-
-//     return(
-//        <>
-//         {call()}
-//        </> 
-//     );
-
-// }
-
 import React, { useState } from 'react';
 import { View, Text, Image, Button } from 'react-native';
 import axios from 'axios';
 
 export default function SendData({ 
-        image, 
-        topPad,
-        bottomPad,
-        leftPad,
-        rightPad,
-        tableDetThresh,
-        tableStructThresh,
-        authToken
-    }){
+    image, 
+    topPad,
+    bottomPad,
+    leftPad,
+    rightPad,
+    tableDetThresh,
+    tableStructThresh,
+    authToken
+}){
+
+  tableDetThresh = parseFloat(tableDetThresh);
+  tableStructThresh = parseFloat(tableStructThresh);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleUpload = async () => {
@@ -51,7 +22,7 @@ export default function SendData({
 
     const token = authToken;
     const formData = new FormData();
-    console.log(image);
+    console.log(token);
   
     formData.append('file', {
       uri: image,
@@ -61,7 +32,7 @@ export default function SendData({
 
     try {
       const response = await axios.post(
-        'http://192.168.18.145:8000/extract?table_detection_threshold=0.6&table_structure_recognition_threshold=0.8&padding_top=20&padding_left=20&padding_right=20&padding_bottom=20',
+        `http://192.168.18.145:8000/extract?table_detection_threshold=${tableDetThresh}&table_structure_recognition_threshold=${tableStructThresh}&padding_top=${topPad}&padding_left=${leftPad}&padding_right=${rightPad}&padding_bottom=${bottomPad}`,
         formData,
         {
           headers: {

@@ -190,6 +190,7 @@ export default function UploadFile( { navigation, route } ){
                   leftPad={leftValue}
                   rightPad={rightValue}
                   tableDetThresh={tableDetectionThresh}
+                  tableStructThresh={tableStructureThresh}
                   authToken={token}
                 />          
               </>
