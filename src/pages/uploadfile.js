@@ -174,7 +174,7 @@ export default function UploadFile( { navigation, route } ){
 
             <View style={styles.logoutBtn}>
                 <TouchableOpacity onPress={handleLogout}>
-                    <Text>Logout</Text>
+                    <Text style={styles.logoutText}>Logout</Text>
                 </TouchableOpacity>
             </View>
 
@@ -243,16 +243,20 @@ export default function UploadFile( { navigation, route } ){
                       </View>
                   </View>
                   <View style={styles.uploadContainer}>
+                  <View  style={{marginLeft:10,marginRight:20}}>
                     <Animated.View style={{ marginTop: 0, transform: translateAnim.getTranslateTransform() }}>
-                        <Icon name="search" size={50} color="#BACDDB" />
+                        <Icon name="search" size={25} color="#BACDDB" />
                     </Animated.View>
                     <Text style={{ marginTop: 0,color:'white'}}>
                         {loading ? 'Extracting table and converting to CSV' : ''}
                     </Text>
+                    </View>
+                    <View  style={{marginLeft:10,marginRight:10}}>
                     <TouchableOpacity style={styles.uploadBtn} onPress={handleUpload}>
                         <Text style={styles.uploadText}>Upload Image</Text>
                     </TouchableOpacity>
                     <Text style={{color:'white', fontSize: 12}} >File Format: jpeg, jpg, and png </Text>
+                    </View>
                   </View>
                 </>
             )}
@@ -278,12 +282,12 @@ const styles = StyleSheet.create({
     container: {
         position: "relative",
     },
-
     uploadContainer: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       marginTop: 20,
+      flexDirection:'row',
     },
 
     uploadBtn:
@@ -343,8 +347,8 @@ const styles = StyleSheet.create({
 
       logoutBtn: {
         borderRadius:5,
-        paddingVertical: 10,
-        paddingHorizontal: 20,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
         alignItems:"center",
         justifyContent:"center",
         marginTop:10,
@@ -354,14 +358,19 @@ const styles = StyleSheet.create({
         right: 10,
         padding: 10,
         borderWidth: 1,
-        borderColor: 'white',
+        borderColor: colors.secondary,
+      },
+      logoutText:{
+        fontSize:16,
+        color : colors.text,
+        fontWeight:'bold',
       },
 
       sliderContainer: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: -30,
+        marginTop: 20,
       },
       row: {
         flexDirection: 'row',

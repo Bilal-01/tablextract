@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
-import { View, Text, Image, Button } from 'react-native';
+import { Linking,View, Text, Image, Button } from 'react-native';
 import axios from 'axios';
+import * as FileSystem from 'expo-file-system';
 
 export default function SendData({ 
-    image, 
-    topPad,
-    bottomPad,
-    leftPad,
-    rightPad,
-    tableDetThresh,
-    tableStructThresh,
-    authToken
-}){
-
-  tableDetThresh = parseFloat(tableDetThresh);
-  tableStructThresh = parseFloat(tableStructThresh);
+  image, 
+  topPad,
+  bottomPad,
+  leftPad,
+  rightPad,
+  tableDetThresh,
+  tableStructThresh,
+  authToken
+}) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleUpload = async () => {
@@ -22,8 +20,7 @@ export default function SendData({
 
     const token = authToken;
     const formData = new FormData();
-    console.log(token);
-  
+
     formData.append('file', {
       uri: image,
       name: 'test.jpg',
@@ -41,7 +38,25 @@ export default function SendData({
           },
         }
       );
+
       console.log('Upload success', response?.data);
+
+      // const fileName = 'extractedTable.csv';
+      // const fileUri = `${FileSystem.documentDirectory}${fileName}`;
+
+      // await FileSystem.writeAsStringAsync(fileUri, response.data, { encoding: FileSystem.EncodingType.UTF8 });
+
+      // console.log('File downloaded successfully');
+            const fileName = 'extractedTable.csv';
+        const fileUri = `${FileSystem.documentDirectory}${fileName}`;
+
+        const supported = await Linking.canOpenURL(fileUri);
+        if (supported) {
+          await Linking.openURL(fileUri);
+        } else {
+          console.log(`Don't know how to open URI: ${fileUri}`);
+        }
+            // console.log('File path:', fileUri);
     } catch (error) {
       console.log('Upload error', JSON.stringify(error?.response?.data));
       console.log(formData)

@@ -25,19 +25,19 @@ export default function CustomSlider({
         thumbTintColor={colors.secondary}
       />
       <View style={styles.textContainer}>
-        <Text style={[styles.text, { 
+        <Text style={[styles.rangeText, { 
           position: 'absolute', 
           left: 25, 
           bottom: 15, 
-          fontSize: 10 
+          fontSize: 10
         }]}>
           {min}
         </Text>
-        <Text style={[styles.text, { 
+        <Text style={[styles.rangeText, { 
           position: 'absolute', 
           right: 20, 
           bottom: 15, 
-          fontSize: 10 
+          fontSize: 10,
         }]}>
           {max}
         </Text>
@@ -45,7 +45,7 @@ export default function CustomSlider({
           position: 'absolute', 
           bottom: 55, 
           right: 20, 
-          fontSize: 16 
+          fontSize: 12 
         }]}>
           {value}
         </Text>
@@ -72,10 +72,10 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
-    fontSize: 15,
-    textAlign: 'left',
+    fontSize: 14,
+    textAlign: 'center',
     marginBottom: -5,
-    marginLeft: -50,
+    marginLeft: 0,
   },
   slider: {
     width: '100%',
@@ -90,6 +90,10 @@ const styles = StyleSheet.create({
   },
   text: {
     color: colors.secondary,
+    fontWeight: 'bold',
+  },
+  rangeText: {
+    color: colors.base_f,
     fontWeight: 'bold',
   },
 
