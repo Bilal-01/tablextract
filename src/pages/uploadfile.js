@@ -15,7 +15,7 @@ export default function UploadFile( { navigation, route } ){
     const [loading, setLoading] = useState(false);
     const [showDownloadButton, setShowDownloadButton] = useState(false);
     const [translateAnim] = useState(new Animated.ValueXY({ x: 0, y: 0 }));
-    const [image, setImage] = useState('');
+    const [image, setImage] = useState(null);
     const [topValue, setTopValue] = useState(20);
     const [bottomValue, setBottomValue] = useState(20);
     const [leftValue, setLeftValue] = useState(20);

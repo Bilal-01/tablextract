@@ -50,19 +50,18 @@ export default function SendData({
     setIsLoading(true);
 
     const token = authToken;
-    console.log( token );
     const formData = new FormData();
-    formData.append('file', image);
-    // formData.append('table_detection_threshold', tableDetThresh);
-    // formData.append('table_structure_recognition_threshold', tableStructThresh);
-    // formData.append('padding_top', topPad);
-    // formData.append('padding_left', leftPad);
-    // formData.append('padding_right', rightPad);
-    // formData.append('padding_bottom', bottomPad);
+    console.log(image);
+  
+    formData.append('file', {
+      uri: image,
+      name: 'test.jpg',
+      type: 'image/jpeg'
+    });
 
     try {
       const response = await axios.post(
-        'http://172.30.0.1:8000/extract?table_detection_threshold=0.6&table_structure_recognition_threshold=0.8&padding_top=20&padding_left=20&padding_right=20&padding_bottom=20',
+        'http://192.168.18.145:8000/extract?table_detection_threshold=0.6&table_structure_recognition_threshold=0.8&padding_top=20&padding_left=20&padding_right=20&padding_bottom=20',
         formData,
         {
           headers: {
@@ -71,25 +70,13 @@ export default function SendData({
           },
         }
       );
-      console.log('Upload success', response.data);
+      console.log('Upload success', response?.data);
     } catch (error) {
-      console.log('Upload error', JSON.stringify(error.response.data));
-      console.log('Upload error', formData);
+      console.log('Upload error', JSON.stringify(error?.response?.data));
+      console.log(formData)
     } finally {
-            // console.log('Upload error', response);
       setIsLoading(false);
     }
-    // axios.post('http://172.30.0.1:8000/extract?table_detection_threshold=0.6&table_structure_recognition_threshold=0.8&padding_top=20&padding_left=20&padding_right=20&padding_bottom=20',
-    // formData,
-    // {
-    //         headers: {
-    //           'Content-Type': 'multipart/form-data',
-    //           Authorization: `Bearer ${token}`,
-    //         },
-    //       }).then(function(response){
-    //             console.log(response.data);
-               
-    //         });
   };
 
   return (
