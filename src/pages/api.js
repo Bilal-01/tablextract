@@ -50,7 +50,7 @@ export default function SendData({
     setIsLoading(true);
 
     const token = authToken;
-    console.log( authToken);
+    // console.log( token );
     const formData = new FormData();
     formData.append('name', 'bilal');
     formData.append('image', file);

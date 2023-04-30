@@ -42,7 +42,7 @@ export default function UploadFile( { navigation, route } ){
       setTableDetectionThresh(newValue)
     }
     const handleValueChangeStructureThresh = (newValue) => {
-      setTableDetectionThresh(newValue)
+      setTableStructureThresh(newValue)
     }
 
 
