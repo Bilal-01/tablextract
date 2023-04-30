@@ -183,13 +183,13 @@ export default function UploadFile( { navigation, route } ){
                     <Text style={styles.downloadText}>Download CSV</Text>
                 </TouchableOpacity>
                 <SendData 
-                  image = "hello"
+                  image = {image}
                   topPad = {topValue}
                   bottomPad={bottomValue}
                   leftPad={leftValue}
                   rightPad={rightValue}
                   tableDetThresh={tableDetectionThresh}
-                  token={token}
+                  authToken={token}
                 />          
               </>
             ) : (
