@@ -17,6 +17,8 @@
     "expo-file-system": "~15.2.2",
     "expo-google-app-auth": "~8.3.0",
     "expo-image-picker": "~14.1.1",
+    "expo-media-library": "^15.2.3",
+    "expo-permissions": "^14.1.1",
     "expo-status-bar": "~1.4.4",
     "firebase": "^9.19.1",
     "react": "18.2.0",

@@ -296,7 +296,6 @@ const styles = StyleSheet.create({
       marginTop:10,
       marginBottom:3,
       backgroundColor:colors.secondary,
-
     },
     uploadText:{
       fontSize:16,
