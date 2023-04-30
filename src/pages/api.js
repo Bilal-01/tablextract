@@ -10,7 +10,8 @@ export default function SendData({
     leftPad,
     rightPad,
     tableDetThresh,
-    tableStructThresh
+    tableStructThresh,
+    token,
 }){
     function call()
     {
