@@ -14,7 +14,7 @@ const Login = ({ navigation }) => {
     signInWithEmailAndPassword(auth, inputEmail, inputPassword)
       .then((userCredential) => {
         userCredential.user.getIdToken().then((token) => {
-          console.log("THIS: " +token);
+          // console.log("THIS: " +token);
           navigation.navigate('UploadFile', {authToken: token});
         });
       })

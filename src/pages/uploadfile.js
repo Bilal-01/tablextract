@@ -10,7 +10,8 @@ import CustomSlider from '../components/organisms/slider';
 import SendData from './api';
 
 export default function UploadFile( { navigation, route } ){
-    const { token } = route.params;
+    let token  = route.params.authToken
+    // console.log("UPLOAD " + token);
     const [loading, setLoading] = useState(false);
     const [showDownloadButton, setShowDownloadButton] = useState(false);
     const [translateAnim] = useState(new Animated.ValueXY({ x: 0, y: 0 }));
