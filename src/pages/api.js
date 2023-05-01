@@ -5,6 +5,7 @@ import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
 
+
 export default function SendData({ 
     image, 
     topPad,
@@ -15,6 +16,7 @@ export default function SendData({
     tableStructThresh,
     authToken
 }){
+
 
   tableDetThresh = parseFloat(tableDetThresh);
   tableStructThresh = parseFloat(tableStructThresh);
@@ -33,79 +35,42 @@ export default function SendData({
       type: 'image/jpeg'
     });
 
-    try {
-      const response = await axios.post(
-        `http://192.168.18.145:8000/extract?table_detection_threshold=${tableDetThresh}&table_structure_recognition_threshold=${tableStructThresh}&padding_top=${topPad}&padding_left=${leftPad}&padding_right=${rightPad}&padding_bottom=${bottomPad}`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            'Accept': 'application/x-zip-compressed',
-            Authorization: `Bearer ${token}`,
-          },
+    const url = `http://192.168.18.145:8000/extract?table_detection_threshold=${tableDetThresh}&table_structure_recognition_threshold=${tableStructThresh}&padding_top=${topPad}&padding_left=${leftPad}&padding_right=${rightPad}&padding_bottom=${bottomPad}`;
+
+    axios.post(url, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(async (res) => {
+      console.log(res.data)
+
+      for (let url of res.data) {
+        url = 'http://192.168.18.145:8000/' + url;
+        console.log(url);
+        const fileUri = `${FileSystem.documentDirectory}${url.split('/').pop()}`;
+        const downloadedFile = await FileSystem.downloadAsync(url, fileUri);
+    
+        if (downloadedFile.status === 200) {
+          console.log('File downloaded successfully:', downloadedFile.uri);
+        } else {
+          console.error('Error downloading file:', downloadedFile);
         }
-      );
-
-      // const url = `http://192.168.18.145:8000/extract?table_detection_threshold=${tableDetThresh}&table_structure_recognition_threshold=${tableStructThresh}&padding_top=${topPad}&padding_left=${leftPad}&padding_right=${rightPad}&padding_bottom=${bottomPad}`;
-      const filename = "tables.zip";
-      const fileUri = `${FileSystem.documentDirectory}${filename}`;
-      const url = new Blob([response.data],{type:'application/x-zip-compressed'});
-      const downloadResumable = FileSystem.createDownloadResumable(
-        url,
-        FileSystem.documentDirectory + filename,
-        {},
-        (downloadProgress) => {
-          const progress = downloadProgress.totalBytesWritten / downloadProgress.totalBytesExpectedToWrite;
-          console.log(`Download progress: ${progress * 100}%`);
-        }
-      );
-      try {
-        const { uri } = await downloadResumable.downloadAsync();
-        console.log(`Download complete: ${uri}`);
-      } catch (e) {
-        console.error(`Error downloading file: ${e}`);
-      }
-      // console.log(response);
-
-      // await FileSystem.writeAsStringAsync(fileUri, response.data, {
-      //   encoding: FileSystem.EncodingType.Base64
-      // });
-
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status === "granted") {
-        try{
-          const asset = await MediaLibrary.createAssetAsync(fileUri);
-          await MediaLibrary.createAlbumAsync("Downloads", asset, false);
-        } catch(error){
-          console.log(error)
-        }
-      }
-
-      // const perm = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
-      if (status != 'granted') {
-        try {
-          const asset = await MediaLibrary.createAssetAsync(downloadedFile.uri);
-          const album = await MediaLibrary.getAlbumAsync('Downloads');
-          if (album == null) {
-            await MediaLibrary.createAlbumAsync('Downloads', asset, false);
-          } else {
-            await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
+        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        if (status === "granted") {
+          try{
+            var assetFilePath = `${fileUri}`;
+            console.log(assetFilePath);
+            const asset = await MediaLibrary.createAssetAsync(fileUri);
+            await MediaLibrary.createAlbumAsync("Downloads", asset, false);
+          } catch(error){
+            console.log(error)
           }
-        } catch (e) {
-          handleError(e);
         }
       }
-
-
-      console.log('File downloaded successfully');
-
-
-    } catch (error) {
-      console.log('Upload error', JSON.stringify(error?.response?.data));
-      console.log(formData)
-    } finally {
-      setIsLoading(false);
-    }
+    })
+    .catch(err => console.log(err));
   };
 
   return (

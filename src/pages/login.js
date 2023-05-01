@@ -15,11 +15,12 @@ const Login = ({ navigation }) => {
       .then((userCredential) => {
         userCredential.user.getIdToken().then((token) => {
           // console.log("THIS: " +token);
+          console.log(token)
           navigation.navigate('UploadFile', {authToken: token});
         });
       })
       .catch((error) => {
-        console.log(error)
+        // console.log(error)
         alert('Error logging in. Email or password invalid');
       });
   }

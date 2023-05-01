@@ -107,10 +107,10 @@ export default function UploadFile( { navigation, route } ){
             }
         }
 
-        setTimeout(() => {
-          setLoading(false);
-          setShowDownloadButton(true);
-        }, 5000);
+        setLoading(false);
+        setShowDownloadButton(true);
+        // setTimeout(() => {
+        // }, 5000);
     };
 
     const handleDownload = async () => {
@@ -244,7 +244,7 @@ export default function UploadFile( { navigation, route } ){
                   </View>
                   <View style={{...styles.uploadContainer}}>
                   <View  style={styles.animator}>
-                    <Animated.View style={{ marginTop: 0, transform: translateAnim.getTranslateTransform() }}>
+                    <Animated.View style={{ marginTop: 0, /*transform: translateAnim.getTranslateTransform()*/ }}>
                         <Icon name="search" size={35} color="#BACDDB" />
                     </Animated.View>
                     <Text style={{ textAlign:'center',fontSize:11,marginTop: 12,color:'white'}}>
