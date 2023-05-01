@@ -69,6 +69,7 @@ export default function SendData({
           }
         }
       }
+      setIsLoading(false);
     })
     .catch(err => console.log(err));
   };

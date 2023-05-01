@@ -114,48 +114,7 @@ export default function UploadFile( { navigation, route } ){
     };
 
     const handleDownload = async () => {
-        // const callback = downloadProgress => {
-        //     const progress = downloadProgress.totalBytesWritten / downloadProgress.totalBytesExpectedToWrite
-        //     this.setState({
-        //       downloadProgress: progress,
-        //     })
-        //   }
-          
-        //   const downloadResumable = FileSystem.createDownloadResumable(
-        //     'http://techslides.com/demos/sample-videos/small.mp4',
-        //     FileSystem.documentDirectory + 'small.mp4',
-        //     {},
-        //     callback
-        //   )
-          
-        //   try {
-        //     const { uri } = await downloadResumable.downloadAsync()
-        //     console.log('Finished downloading to ', uri)
-        //   } catch (e) {
-        //     console.error(e)
-        //   }
-          
-        //   try {
-        //     await downloadResumable.pauseAsync()
-        //     console.log('Paused download operation, saving for future retrieval')
-        //     AsyncStorage.setItem('pausedDownload', JSON.stringify(downloadResumable.savable()))
-        //   } catch (e) {
-        //     console.error(e)
-        //   }
-          
-        //   try {
-        //     const { uri } = await downloadResumable.resumeAsync()
-        //     console.log('Finished downloading to ', uri)
-        //   } catch (e) {
-        //     console.error(e)
-        //   }
-          
-        //   try {
-        //     const { uri } = await downloadResumable.resumeAsync()
-        //     console.log('Finished downloading to ', uri)
-        //   } catch (e) {
-        //     console.error(e)
-        //   }
+      
     };
 
     const handleLogout = async () => {
@@ -172,93 +131,93 @@ export default function UploadFile( { navigation, route } ){
     return (
         <View style={{ ...styles.container, color:'white',backgroundColor:'black',flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
-            <View style={styles.logoutBtn}>
-                <TouchableOpacity onPress={handleLogout}>
-                    <Text style={styles.logoutText}>Logout</Text>
-                </TouchableOpacity>
-            </View>
+          <View style={styles.logoutBtn}>
+              <TouchableOpacity onPress={handleLogout}>
+                  <Text style={styles.logoutText}>Logout</Text>
+              </TouchableOpacity>
+          </View>
 
-            {showDownloadButton ? (
+          {showDownloadButton ? (
+            <>
+              <TouchableOpacity style={styles.downloadBtn} onPress={handleDownload}>
+                  <Text style={styles.downloadText}>Download CSV</Text>
+              </TouchableOpacity>
+              <SendData 
+                image = {image}
+                topPad = {topValue}
+                bottomPad={bottomValue}
+                leftPad={leftValue}
+                rightPad={rightValue}
+                tableDetThresh={tableDetectionThresh}
+                tableStructThresh={tableStructureThresh}
+                authToken={token}
+              />          
+            </>
+          ) : (
               <>
-                <TouchableOpacity style={styles.downloadBtn} onPress={handleDownload}>
-                    <Text style={styles.downloadText}>Download CSV</Text>
-                </TouchableOpacity>
-                <SendData 
-                  image = {image}
-                  topPad = {topValue}
-                  bottomPad={bottomValue}
-                  leftPad={leftValue}
-                  rightPad={rightValue}
-                  tableDetThresh={tableDetectionThresh}
-                  tableStructThresh={tableStructureThresh}
-                  authToken={token}
-                />          
+                <View style={styles.sliderContainer}>
+                    <View style={styles.singleRow}>
+                      <CustomSlider 
+                        value = {tableDetectionThresh}
+                        onValueChange={handleValueChangeDetectionThresh}
+                        step={0.01}
+                        min = {0.1}
+                        max = {1}
+                        title="Table Detection Threshold"
+                      />
+                    </View>
+                    <View style={styles.singleRow}>
+                      <CustomSlider 
+                        value = {tableStructureThresh}
+                        onValueChange={handleValueChangeStructureThresh}
+                        step={0.01}
+                        min = {0.1}
+                        max = {1}
+                        title="Table Structure Threshold"
+                      />
+                    </View>
+                    <View style={styles.row}>
+                      <CustomSlider 
+                        value = {topValue}
+                        onValueChange = {handleValueChangeTop}
+                        title="Top Padding"
+                      />
+                      <CustomSlider 
+                        value = {bottomValue}
+                        onValueChange = {handleValueChangeBottom}
+                        title="Bottom Padding"
+                      />
+                    </View>
+                    <View style={styles.row}>
+                      <CustomSlider 
+                        value = {leftValue}
+                        onValueChange = {handleValueChangeLeft}
+                        title="Left Padding"
+                      />
+                      <CustomSlider 
+                        value = {rightValue}
+                        onValueChange = {handleValueChangeRight}
+                        title="Right Padding"
+                      />
+                    </View>
+                </View>
+                <View style={{...styles.uploadContainer}}>
+                <View  style={styles.animator}>
+                  <Animated.View style={{ marginTop: 0, /*transform: translateAnim.getTranslateTransform()*/ }}>
+                      <Icon name="search" size={35} color="#BACDDB" />
+                  </Animated.View>
+                  <Text style={{ textAlign:'center',fontSize:11,marginTop: 12,color:'white'}}>
+                      {loading ? 'Extracting table and converting to CSV' : ''}
+                  </Text>
+                  </View>
+                  <View  style={styles.upload}>
+                  <TouchableOpacity style={styles.uploadBtn} onPress={handleUpload}>
+                      <Text style={styles.uploadText}>Upload Image</Text>
+                  </TouchableOpacity>
+                  <Text style={{color:'white', fontSize: 11,textAlign:'center',marginTop:5}} >File Format: jpeg, jpg, and png </Text>
+                  </View>
+                </View>
               </>
-            ) : (
-                <>
-                  <View style={styles.sliderContainer}>
-                      <View style={styles.singleRow}>
-                        <CustomSlider 
-                          value = {tableDetectionThresh}
-                          onValueChange={handleValueChangeDetectionThresh}
-                          step={0.01}
-                          min = {0.1}
-                          max = {1}
-                          title="Table Detection Threshold"
-                        />
-                      </View>
-                      <View style={styles.singleRow}>
-                        <CustomSlider 
-                          value = {tableStructureThresh}
-                          onValueChange={handleValueChangeStructureThresh}
-                          step={0.01}
-                          min = {0.1}
-                          max = {1}
-                          title="Table Structure Threshold"
-                        />
-                      </View>
-                      <View style={styles.row}>
-                        <CustomSlider 
-                          value = {topValue}
-                          onValueChange = {handleValueChangeTop}
-                          title="Top Padding"
-                        />
-                        <CustomSlider 
-                          value = {bottomValue}
-                          onValueChange = {handleValueChangeBottom}
-                          title="Bottom Padding"
-                        />
-                      </View>
-                      <View style={styles.row}>
-                        <CustomSlider 
-                          value = {leftValue}
-                          onValueChange = {handleValueChangeLeft}
-                          title="Left Padding"
-                        />
-                        <CustomSlider 
-                          value = {rightValue}
-                          onValueChange = {handleValueChangeRight}
-                          title="Right Padding"
-                        />
-                      </View>
-                  </View>
-                  <View style={{...styles.uploadContainer}}>
-                  <View  style={styles.animator}>
-                    <Animated.View style={{ marginTop: 0, /*transform: translateAnim.getTranslateTransform()*/ }}>
-                        <Icon name="search" size={35} color="#BACDDB" />
-                    </Animated.View>
-                    <Text style={{ textAlign:'center',fontSize:11,marginTop: 12,color:'white'}}>
-                        {loading ? 'Extracting table and converting to CSV' : ''}
-                    </Text>
-                    </View>
-                    <View  style={styles.upload}>
-                    <TouchableOpacity style={styles.uploadBtn} onPress={handleUpload}>
-                        <Text style={styles.uploadText}>Upload Image</Text>
-                    </TouchableOpacity>
-                    <Text style={{color:'white', fontSize: 11,textAlign:'center',marginTop:5}} >File Format: jpeg, jpg, and png </Text>
-                    </View>
-                  </View>
-                </>
             )}
             <View style={styles.footer}>
                 <Text style={styles.footerText}>Contact Us</Text>
@@ -278,7 +237,6 @@ const colors = {
 };
 
 const styles = StyleSheet.create({
-
     container: {
         position: "relative",
     },
@@ -292,27 +250,19 @@ const styles = StyleSheet.create({
     },
     animator:
     {
-    // borderColor:'white',
-    // borderWidth:1,
-    marginTop:20,
-    height:'100%',
-    width:'50%',
-    // marginLeft:80,
-    padding:30,
-    flex: 1, 
-    // justifyContent: 'center', 
-    alignItems: 'center'
+      marginTop:20,
+      height:'100%',
+      width:'50%',
+      padding:30,
+      flex: 1, 
+      alignItems: 'center'
     },
 
     upload:
     {
-    // borderColor:'white',
-    // borderWidth:1,
-    padding:20,
-    height:'100%',
-    width:'50%',
-    // marginLeft:10
-    // marginLeft:20
+      padding:20,
+      height:'100%',
+      width:'50%',
     
     },
     uploadBtn:
