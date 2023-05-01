@@ -242,20 +242,20 @@ export default function UploadFile( { navigation, route } ){
                         />
                       </View>
                   </View>
-                  <View style={styles.uploadContainer}>
-                  <View  style={{marginLeft:10,marginRight:20}}>
+                  <View style={{...styles.uploadContainer}}>
+                  <View  style={styles.animator}>
                     <Animated.View style={{ marginTop: 0, transform: translateAnim.getTranslateTransform() }}>
-                        <Icon name="search" size={25} color="#BACDDB" />
+                        <Icon name="search" size={35} color="#BACDDB" />
                     </Animated.View>
-                    <Text style={{ marginTop: 0,color:'white'}}>
+                    <Text style={{ textAlign:'center',fontSize:11,marginTop: 12,color:'white'}}>
                         {loading ? 'Extracting table and converting to CSV' : ''}
                     </Text>
                     </View>
-                    <View  style={{marginLeft:10,marginRight:10}}>
+                    <View  style={styles.upload}>
                     <TouchableOpacity style={styles.uploadBtn} onPress={handleUpload}>
                         <Text style={styles.uploadText}>Upload Image</Text>
                     </TouchableOpacity>
-                    <Text style={{color:'white', fontSize: 12}} >File Format: jpeg, jpg, and png </Text>
+                    <Text style={{color:'white', fontSize: 11,textAlign:'center',marginTop:5}} >File Format: jpeg, jpg, and png </Text>
                     </View>
                   </View>
                 </>
@@ -286,10 +286,35 @@ const styles = StyleSheet.create({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      marginTop: 20,
+      marginTop: 5,
       flexDirection:'row',
+      width:'100%',
+    },
+    animator:
+    {
+    // borderColor:'white',
+    // borderWidth:1,
+    marginTop:20,
+    height:'100%',
+    width:'50%',
+    // marginLeft:80,
+    padding:30,
+    flex: 1, 
+    // justifyContent: 'center', 
+    alignItems: 'center'
     },
 
+    upload:
+    {
+    // borderColor:'white',
+    // borderWidth:1,
+    padding:20,
+    height:'100%',
+    width:'50%',
+    // marginLeft:10
+    // marginLeft:20
+    
+    },
     uploadBtn:
     {
       borderRadius:5,
@@ -369,7 +394,6 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 20,
       },
       row: {
         flexDirection: 'row',
