@@ -25,6 +25,7 @@ export default function SendData({
 
     const token = authToken;
     const formData = new FormData();
+    console.log(token)
   
     formData.append('file', {
       uri: image,
@@ -39,14 +40,16 @@ export default function SendData({
         {
           headers: {
             'Content-Type': 'multipart/form-data',
+            'Accept': 'application/x-zip-compressed',
             Authorization: `Bearer ${token}`,
           },
         }
       );
 
-      const url = `http://192.168.18.145:8000/extract?table_detection_threshold=${tableDetThresh}&table_structure_recognition_threshold=${tableStructThresh}&padding_top=${topPad}&padding_left=${leftPad}&padding_right=${rightPad}&padding_bottom=${bottomPad}`;
-      const filename = "extracted.csv";
-
+      // const url = `http://192.168.18.145:8000/extract?table_detection_threshold=${tableDetThresh}&table_structure_recognition_threshold=${tableStructThresh}&padding_top=${topPad}&padding_left=${leftPad}&padding_right=${rightPad}&padding_bottom=${bottomPad}`;
+      const filename = "tables.zip";
+      const fileUri = `${FileSystem.documentDirectory}${filename}`;
+      const url = new Blob([response.data],{type:'application/x-zip-compressed'});
       const downloadResumable = FileSystem.createDownloadResumable(
         url,
         FileSystem.documentDirectory + filename,
@@ -62,11 +65,15 @@ export default function SendData({
       } catch (e) {
         console.error(`Error downloading file: ${e}`);
       }
+      // console.log(response);
+
+      // await FileSystem.writeAsStringAsync(fileUri, response.data, {
+      //   encoding: FileSystem.EncodingType.Base64
+      // });
 
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
       if (status === "granted") {
         try{
-          const fileUri = `${FileSystem.documentDirectory}${filename}`;
           const asset = await MediaLibrary.createAssetAsync(fileUri);
           await MediaLibrary.createAlbumAsync("Downloads", asset, false);
         } catch(error){
