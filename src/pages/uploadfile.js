@@ -11,7 +11,6 @@ import SendData from './api';
 
 export default function Main( { navigation, route } ){
     let token  = route.params.authToken
-    // console.log("UPLOAD " + token);
     const [loading, setLoading] = useState(false);
     const [showDownloadButton, setShowDownloadButton] = useState(false);
     const [translateAnim] = useState(new Animated.ValueXY({ x: 0, y: 0 }));
@@ -22,6 +21,7 @@ export default function Main( { navigation, route } ){
     const [rightValue, setRightValue] = useState(20);
     const [tableDetectionThresh, setTableDetectionThresh] = useState(0.6);
     const [tableStructureThresh, setTableStructureThresh] = useState(0.8);
+    const [isDone, setIsDone] = useState(false);
   
     const handleValueChangeTop = (newValue) => {
       setTopValue(Math.round(newValue));
@@ -47,49 +47,7 @@ export default function Main( { navigation, route } ){
     }
 
 
-    useEffect(() => {
-        if (loading) {
-        startAnimation();
-        } else {
-        resetAnimation();
-        }
-    }, [loading]);
-
-    const startAnimation = () => {
-        Animated.loop(
-        Animated.sequence([
-            Animated.timing(translateAnim, {
-            toValue: { x: -50, y: -50 },
-            duration: 1000,
-            easing: Easing.linear,
-            useNativeDriver: true,
-            }),
-            Animated.timing(translateAnim, {
-            toValue: { x: 0, y: -100 },
-            duration: 1000,
-            easing: Easing.linear,
-            useNativeDriver: true,
-            }),
-            Animated.timing(translateAnim, {
-            toValue: { x: 50, y: -50 },
-            duration: 1000,
-            easing: Easing.linear,
-            useNativeDriver: true,
-            }),
-            Animated.timing(translateAnim, {
-            toValue: { x: 0, y: 0 },
-            duration: 1000,
-            easing: Easing.linear,
-            useNativeDriver: true,
-            }),
-        ])
-        ).start();
-    };
-
-    const resetAnimation = () => {
-        Animated.timing(translateAnim).stop();
-        translateAnim.setValue({ x: 0, y: 0 });
-    };
+    
 
     const handleUpload = async () => {
         setLoading(true);
@@ -118,13 +76,22 @@ export default function Main( { navigation, route } ){
     };
 
     const handleLogout = async () => {
-        try {
-          await auth.signOut();
-          navigation.navigate('Home');
-        } catch (error) {
-          console.log(error);
-        }
-      };
+      try {
+        await auth.signOut();
+        navigation.navigate('Home');
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const handleNavigateBack = () => {
+      setShowDownloadButton(false);
+      setImage(null);
+    }
+
+    const handleDone = () => {
+      setIsDone(true);
+    }
 
 
 
@@ -132,9 +99,9 @@ export default function Main( { navigation, route } ){
         <View style={{ ...styles.container, color:'white',backgroundColor:'black',flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
           <View style={styles.logoutBtn}>
-              <TouchableOpacity onPress={handleLogout}>
-                  <Text style={styles.logoutText}>Logout</Text>
-              </TouchableOpacity>
+            <TouchableOpacity onPress={handleLogout}>
+                <Text style={styles.logoutText}>Logout</Text>
+            </TouchableOpacity>
           </View>
 
           {showDownloadButton ? (
@@ -142,6 +109,13 @@ export default function Main( { navigation, route } ){
               {/* <TouchableOpacity style={styles.downloadBtn} onPress={handleDownload}>
                   <Text style={styles.downloadText}>Download CSV</Text>
               </TouchableOpacity> */}
+              <View style={styles.backBtnContainer}>
+                <TouchableOpacity style={styles.backBtn} onPress={handleNavigateBack}>
+                  <Text style={styles.backBtnText}>
+                    Back
+                  </Text>
+                </TouchableOpacity>
+              </View>
               <SendData 
                 image = {image}
                 topPad = {topValue}
@@ -156,65 +130,57 @@ export default function Main( { navigation, route } ){
           ) : (
               <>
                 <View style={styles.sliderContainer}>
-                    <View style={styles.singleRow}>
-                      <CustomSlider 
-                        value = {tableDetectionThresh}
-                        onValueChange={handleValueChangeDetectionThresh}
-                        step={0.01}
-                        min = {0.1}
-                        max = {1}
-                        title="Table Detection Threshold"
-                      />
-                    </View>
-                    <View style={styles.singleRow}>
-                      <CustomSlider 
-                        value = {tableStructureThresh}
-                        onValueChange={handleValueChangeStructureThresh}
-                        step={0.01}
-                        min = {0.1}
-                        max = {1}
-                        title="Table Structure Threshold"
-                      />
-                    </View>
-                    <View style={styles.row}>
-                      <CustomSlider 
-                        value = {topValue}
-                        onValueChange = {handleValueChangeTop}
-                        title="Top Padding"
-                      />
-                      <CustomSlider 
-                        value = {bottomValue}
-                        onValueChange = {handleValueChangeBottom}
-                        title="Bottom Padding"
-                      />
-                    </View>
-                    <View style={styles.row}>
-                      <CustomSlider 
-                        value = {leftValue}
-                        onValueChange = {handleValueChangeLeft}
-                        title="Left Padding"
-                      />
-                      <CustomSlider 
-                        value = {rightValue}
-                        onValueChange = {handleValueChangeRight}
-                        title="Right Padding"
-                      />
-                    </View>
+                  <View style={styles.singleRow}>
+                    <CustomSlider 
+                      value = {tableDetectionThresh}
+                      onValueChange={handleValueChangeDetectionThresh}
+                      step={0.01}
+                      min = {0.1}
+                      max = {1}
+                      title="Table Detection Threshold"
+                    />
+                  </View>
+                  <View style={styles.singleRow}>
+                    <CustomSlider 
+                      value = {tableStructureThresh}
+                      onValueChange={handleValueChangeStructureThresh}
+                      step={0.01}
+                      min = {0.1}
+                      max = {1}
+                      title="Table Structure Threshold"
+                    />
+                  </View>
+                  <View style={styles.row}>
+                    <CustomSlider 
+                      value = {topValue}
+                      onValueChange = {handleValueChangeTop}
+                      title="Top Padding"
+                    />
+                    <CustomSlider 
+                      value = {bottomValue}
+                      onValueChange = {handleValueChangeBottom}
+                      title="Bottom Padding"
+                    />
+                  </View>
+                  <View style={styles.row}>
+                    <CustomSlider 
+                      value = {leftValue}
+                      onValueChange = {handleValueChangeLeft}
+                      title="Left Padding"
+                    />
+                    <CustomSlider 
+                      value = {rightValue}
+                      onValueChange = {handleValueChangeRight}
+                      title="Right Padding"
+                    />
+                  </View>
                 </View>
                 <View style={{...styles.uploadContainer}}>
-                <View  style={styles.animator}>
-                  <Animated.View style={{ marginTop: 0, /*transform: translateAnim.getTranslateTransform()*/ }}>
-                      <Icon name="search" size={35} color="#BACDDB" />
-                  </Animated.View>
-                  <Text style={{ textAlign:'center',fontSize:11,marginTop: 12,color:'white'}}>
-                      {loading ? 'Extracting table and converting to CSV' : ''}
-                  </Text>
-                  </View>
                   <View  style={styles.upload}>
-                  <TouchableOpacity style={styles.uploadBtn} onPress={handleUpload}>
-                      <Text style={styles.uploadText}>Upload Image</Text>
-                  </TouchableOpacity>
-                  <Text style={{color:'white', fontSize: 11,textAlign:'center',marginTop:5}} >File Format: jpeg, jpg, and png </Text>
+                    <TouchableOpacity style={styles.uploadBtn} onPress={handleUpload}>
+                        <Text style={styles.uploadText}>Upload Image</Text>
+                    </TouchableOpacity>
+                    <Text style={{color:'white', fontSize: 11,textAlign:'center',marginTop:5}} >File Format: jpeg, jpg, and png </Text>
                   </View>
                 </View>
               </>
@@ -240,6 +206,35 @@ const styles = StyleSheet.create({
     container: {
         position: "relative",
     },
+
+    backBtnContainer: {
+      width: '100%',
+      height: '30%',
+      display: 'flex',
+      alignItems: 'center'
+    },
+
+    backBtn: {
+      borderRadius:5,
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      alignItems:"center",
+      justifyContent:"center",
+      marginTop:10,
+      marginBottom:3,
+      backgroundColor:colors.secondary,
+      width: '100%',
+      // position: 'absolute',
+      // top: 0,
+      // left: 0,
+    },
+    
+    backBtnText: {
+      fontSize:12,
+      color : colors.text,
+      fontWeight:'bold',
+    },
+
     uploadContainer: {
       display: 'flex',
       alignItems: 'center',

@@ -1,26 +1,77 @@
-import React, { useState } from 'react';
-import { StyleSheet,TouchableOpacity,View, Text, Image, Button } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet,View, Text, Image, Animated, Easing, Button } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
 
 
+
 export default function SendData({ 
-    image, 
-    topPad,
-    bottomPad,
-    leftPad,
-    rightPad,
-    tableDetThresh,
-    tableStructThresh,
-    authToken
-}){
+  image, 
+  topPad,
+  bottomPad,
+  leftPad,
+  rightPad,
+  tableDetThresh,
+  tableStructThresh,
+  authToken,
+  handleDone,
+  }){
+    
+    tableDetThresh = parseFloat(tableDetThresh);
+    tableStructThresh = parseFloat(tableStructThresh);
+    const [isLoading, setIsLoading] = useState(false);
+    const [translateAnim] = useState(new Animated.ValueXY({ x: 0, y: 0 }));
+    const [isDone, setIsDone] = useState(false);
+
+    useEffect(() => {
+    if (isLoading) {
+    startAnimation();
+    } else {
+    resetAnimation();
+    }
+  }, [isLoading]);
+
+  const startAnimation = () => {
+      Animated.loop(
+      Animated.sequence([
+          Animated.timing(translateAnim, {
+          toValue: { x: -50, y: -50 },
+          duration: 1000,
+          easing: Easing.linear,
+          useNativeDriver: true,
+          }),
+          Animated.timing(translateAnim, {
+          toValue: { x: 0, y: -100 },
+          duration: 1000,
+          easing: Easing.linear,
+          useNativeDriver: true,
+          }),
+          Animated.timing(translateAnim, {
+          toValue: { x: 50, y: -50 },
+          duration: 1000,
+          easing: Easing.linear,
+          useNativeDriver: true,
+          }),
+          Animated.timing(translateAnim, {
+          toValue: { x: 0, y: 0 },
+          duration: 1000,
+          easing: Easing.linear,
+          useNativeDriver: true,
+          }),
+      ])
+      ).start();
+  };
+
+  const resetAnimation = () => {
+      Animated.timing(translateAnim).stop();
+      translateAnim.setValue({ x: 0, y: 0 });
+  };
 
 
-  tableDetThresh = parseFloat(tableDetThresh);
-  tableStructThresh = parseFloat(tableStructThresh);
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleDownload = async () => {
     setIsLoading(true);
@@ -70,19 +121,33 @@ export default function SendData({
         }
       }
       setIsLoading(false);
+      setIsDone(true);
+      // handleDone(true)
     })
     .catch(err => console.log(err));
   };
 
  
   return (
-    <View>
-      <Text>Download an image:</Text>
-      <Image source={{ uri: image.uri }} />
-      {/* <Button title="Download CSV" style={styles} onPress={handleDownload} disabled={isLoading} /> */}
-      <TouchableOpacity style={styles.downloadBtn} onPress={handleDownload}>
-  <Text style={styles.downloadText}>Download CSV</Text>
-</TouchableOpacity>
+    <View style={{ ...styles.container, color:'white',backgroundColor:'black',display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      
+      { isDone ? 
+        <Text style={styles.successText}>Your CSV file has been downloaded! Go check the Downloads folder</Text>
+      :
+      <>
+        <View style={styles.animator}>
+          <Animated.View style={{ marginTop: 0, transform: translateAnim.getTranslateTransform() }}>
+              <Icon name="search" size={35} color="#BACDDB" />
+          </Animated.View>
+          <Text style={{ textAlign:'center',fontSize:11,marginTop: 12,color:'white'}}>
+              {isLoading ? 'Extracting table and converting to CSV' : ''}
+          </Text>
+        </View> 
+        <TouchableOpacity style={styles.downloadBtn} onPress={handleDownload}>
+            <Text style={styles.downloadText}>Download CSV</Text>
+        </TouchableOpacity>
+      </>
+      }
     </View>
   );
 };
@@ -96,15 +161,26 @@ const colors = {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    position: "relative",
+    height: '40%',
+  },
+
+  successText: {
+    fontSize: 16, 
+    color: colors.primary,
+    width: 300,
+    textAlign: 'center'
+  },
+
   downloadBtn:
   {
     borderRadius:5,
-    height:50,
+    height:100,
     paddingVertical: 10,
     paddingHorizontal: 20,
     alignItems:"center",
     justifyContent:"center",
-    marginTop:10,
     marginBottom:5,
     backgroundColor:colors.text,
   },
@@ -113,4 +189,13 @@ const styles = StyleSheet.create({
     color : colors.secondary,
     fontWeight:'bold'
   },
+  animator:
+    {
+      marginTop:20,
+      height:'100%',
+      width:'50%',
+      padding:30,
+      flex: 1, 
+      alignItems: 'center'
+    },
 })
