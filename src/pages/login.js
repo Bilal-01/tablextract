@@ -16,7 +16,7 @@ const Login = ({ navigation }) => {
         userCredential.user.getIdToken().then((token) => {
           // console.log("THIS: " +token);
           console.log(token)
-          navigation.navigate('UploadFile', {authToken: token});
+          navigation.navigate('Main', {authToken: token});
         });
       })
       .catch((error) => {

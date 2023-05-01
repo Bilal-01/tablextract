@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, Button } from 'react-native';
+import { StyleSheet,TouchableOpacity,View, Text, Image, Button } from 'react-native';
 import axios from 'axios';
 import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
@@ -22,7 +22,7 @@ export default function SendData({
   tableStructThresh = parseFloat(tableStructThresh);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleUpload = async () => {
+  const handleDownload = async () => {
     setIsLoading(true);
 
     const token = authToken;
@@ -74,11 +74,43 @@ export default function SendData({
     .catch(err => console.log(err));
   };
 
+ 
   return (
     <View>
-      <Text>Upload an image:</Text>
+      <Text>Download an image:</Text>
       <Image source={{ uri: image.uri }} />
-      <Button title="Upload" onPress={handleUpload} disabled={isLoading} />
+      {/* <Button title="Download CSV" style={styles} onPress={handleDownload} disabled={isLoading} /> */}
+      <TouchableOpacity style={styles.downloadBtn} onPress={handleDownload}>
+  <Text style={styles.downloadText}>Download CSV</Text>
+</TouchableOpacity>
     </View>
   );
 };
+const colors = {
+    primary: '#F3E8FF',
+    secondary: '#CE5959',
+    base: '#BACDDB',
+    gray: '#808080',
+    base_f: '#454545',
+    text: '#253e53'
+};
+
+const styles = StyleSheet.create({
+  downloadBtn:
+  {
+    borderRadius:5,
+    height:50,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    alignItems:"center",
+    justifyContent:"center",
+    marginTop:10,
+    marginBottom:5,
+    backgroundColor:colors.text,
+  },
+  downloadText:{
+    fontSize:18,
+    color : colors.secondary,
+    fontWeight:'bold'
+  },
+})

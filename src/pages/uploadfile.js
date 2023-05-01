@@ -9,7 +9,7 @@ import { auth } from '../../firebaseConfig';
 import CustomSlider from '../components/organisms/slider';
 import SendData from './api';
 
-export default function UploadFile( { navigation, route } ){
+export default function Main( { navigation, route } ){
     let token  = route.params.authToken
     // console.log("UPLOAD " + token);
     const [loading, setLoading] = useState(false);
@@ -139,9 +139,9 @@ export default function UploadFile( { navigation, route } ){
 
           {showDownloadButton ? (
             <>
-              <TouchableOpacity style={styles.downloadBtn} onPress={handleDownload}>
+              {/* <TouchableOpacity style={styles.downloadBtn} onPress={handleDownload}>
                   <Text style={styles.downloadText}>Download CSV</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <SendData 
                 image = {image}
                 topPad = {topValue}

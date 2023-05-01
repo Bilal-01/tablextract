@@ -31,7 +31,7 @@ const Signup = ({ navigation }) => {
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      navigation.navigate('UploadFile')
+      navigation.navigate('Main')
     })
     .catch((error) => {
       switch (error.code) {
