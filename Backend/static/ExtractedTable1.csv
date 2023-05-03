@@ -1,0 +1,6 @@
+Recognition methods,Recognition Rate %
+PCA,28.97
+LDA,75.11
+Bayesian,75.54
+Unified subspace analysis,80.26
+Discriminant mutual subspace learning,7 87.98
