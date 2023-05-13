@@ -14,7 +14,7 @@ const Signup = ({ navigation }) => {
     // Email validation
     const emailRegex = /\S+@\S+\.\S+/;
     if (!emailRegex.test(email)) {
-      alert('Please enter a valid email address i.e. @domai.com');
+      alert('Please enter a valid email address i.e. @domain.com');
       return;
     }
 
