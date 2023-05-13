@@ -85,8 +85,8 @@ export default function SendData({
       name: 'test.jpg',
       type: 'image/jpeg'
     });
-
-    const url = `http://192.168.18.145:8000/extract?table_detection_threshold=${tableDetThresh}&table_structure_recognition_threshold=${tableStructThresh}&padding_top=${topPad}&padding_left=${leftPad}&padding_right=${rightPad}&padding_bottom=${bottomPad}`;
+    const IP = "192.168.18.158"
+    const url = `http://${IP}:8000/extract?table_detection_threshold=${tableDetThresh}&table_structure_recognition_threshold=${tableStructThresh}&padding_top=${topPad}&padding_left=${leftPad}&padding_right=${rightPad}&padding_bottom=${bottomPad}`;
 
     axios.post(url, formData, {
       headers: {
@@ -98,7 +98,7 @@ export default function SendData({
       console.log(res.data)
 
       for (let url of res.data) {
-        url = 'http://192.168.18.145:8000/' + url;
+        url = `http://${IP}:8000/` + url;
         console.log(url);
         const fileUri = `${FileSystem.documentDirectory}${url.split('/').pop()}`;
         const downloadedFile = await FileSystem.downloadAsync(url, fileUri);

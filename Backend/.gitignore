@@ -1,0 +1,4 @@
+table_*.json
+__pycache__
+my_env
+.vscode
