@@ -85,7 +85,7 @@ export default function SendData({
       name: 'test.jpg',
       type: 'image/jpeg'
     });
-    const IP = "192.168.18.158"
+    const IP = "192.168.18.145"
     const url = `http://${IP}:8000/extract?table_detection_threshold=${tableDetThresh}&table_structure_recognition_threshold=${tableStructThresh}&padding_top=${topPad}&padding_left=${leftPad}&padding_right=${rightPad}&padding_bottom=${bottomPad}`;
 
     axios.post(url, formData, {

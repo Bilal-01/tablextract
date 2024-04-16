@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Slider } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import Slider from '@react-native-community/slider';
 
 export default function CustomSlider({ 
   value,
